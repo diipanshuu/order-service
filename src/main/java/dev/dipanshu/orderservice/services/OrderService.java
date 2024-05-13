@@ -2,9 +2,12 @@ package dev.dipanshu.orderservice.services;
 
 import dev.dipanshu.orderservice.dtos.CreateOrderRequestDto;
 import dev.dipanshu.orderservice.models.CustomerOrder;
+import dev.dipanshu.orderservice.models.OrderProduct;
+import dev.dipanshu.orderservice.repositories.OrderProductRepository;
 import dev.dipanshu.orderservice.repositories.OrderRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,8 +15,10 @@ import java.util.UUID;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    public OrderService(OrderRepository orderRepository) {
+    private final OrderProductRepository orderProductRepository;
+    public OrderService(OrderRepository orderRepository, OrderProductRepository orderProductRepository) {
         this.orderRepository = orderRepository;
+        this.orderProductRepository = orderProductRepository;
     }
 
      public List<CustomerOrder> getAllOrders(){
@@ -31,7 +36,20 @@ public class OrderService {
         order.setOrderAmount(1000);
         order.setShippingAddress(orderRequestDto.getShippingAddress());
 
+        List<OrderProduct> orderProductList = new ArrayList<>();
+        List<CreateOrderRequestDto.OrderItemDto> items = orderRequestDto.getItems();
+        for (CreateOrderRequestDto.OrderItemDto item : items) {
+
+            OrderProduct orderProduct = new OrderProduct();
+            orderProduct.setProductId(item.getProductId());
+            orderProduct.setQuantity(item.getQuantity());
+            orderProductList.add(orderProduct);
+
+        }
+
         orderRepository.save(order);
+        orderProductRepository.saveAll(orderProductList);
+
         return order.getOrderNumber();
     }
 

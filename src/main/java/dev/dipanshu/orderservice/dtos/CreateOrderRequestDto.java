@@ -13,6 +13,8 @@ public class CreateOrderRequestDto {
     private List<OrderItemDto> items;
     private String shippingAddress;
 
+    @Getter
+    @Setter
     public static class OrderItemDto {
         private Long productId;
         private Integer quantity;
