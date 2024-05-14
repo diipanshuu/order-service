@@ -22,4 +22,5 @@ public class CustomerOrder extends BaseModel{
 
     @OneToMany(mappedBy = "order")
     private Set<OrderProduct> orderProducts;
+
 }

@@ -1,9 +1,7 @@
 package dev.dipanshu.orderservice.controllers;
 import dev.dipanshu.orderservice.dtos.CreateOrderRequestDto;
 import dev.dipanshu.orderservice.services.OrderService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class OrderController {
@@ -16,5 +14,10 @@ public class OrderController {
     @PostMapping("/orders")
     public String createOrder(@RequestBody CreateOrderRequestDto orderRequestDto){
         return orderService.saveOrder(orderRequestDto);
+    }
+
+    @DeleteMapping("/orders/{id}")
+    public void deleteOrder(@PathVariable int id){
+        orderService.deleteOrder(id);
     }
 }
