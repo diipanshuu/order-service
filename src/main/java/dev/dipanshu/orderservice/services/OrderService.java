@@ -54,10 +54,11 @@ public class OrderService {
         orderProductRepository.saveAll(orderProductList);
 
         // Calling the payment service to get the link
-        String paymentLink = restTemplate.postForObject("http://localhost:9090/payments",
-                null,String.class);
+//        String paymentLink = restTemplate.postForObject("http://localhost:9090/payments",
+//                null,String.class);
 
-        return order.getOrderNumber() + " " + paymentLink;
+//        return order.getOrderNumber() + " " + paymentLink;
+        return String.valueOf(orderRequestDto.hashCode());
     }
 
      public CustomerOrder updateOrder(CustomerOrder order){
